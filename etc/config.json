@@ -1,0 +1,22 @@
+{
+	"zxcs": {
+		"scheme": "http",
+		"address": "www.zxcs8.com",
+		"root_path": "/sort",
+		"map": {
+			"historyAndMilitary":"28",
+			"history":"42",
+			"military":"43",
+			"city":"23",
+			"swordsmanAndGod":"25",
+			"swordsman":"36",
+			"god":"37",
+			"fantasy0And1":"26",
+			"fantasy0":"38",
+			"fantasy1":"39",
+			"publishAndGirl":"34",
+			"publish":"46",
+			"girl":"47"
+		}
+    }
+}
