@@ -1,7 +1,7 @@
 package etc
 
 import (
-	"github.com/sanguohot/zxcs-go-spider/pkg/common/zap"
+	"github.com/sanguohot/zxcs-go-spider/pkg/common/log"
 	"github.com/spf13/viper"
 	"os"
 	"path"
@@ -9,43 +9,42 @@ import (
 // auto generate struct
 // https://mholt.github.io/json-to-go/
 // use mapstructure to replace json for '_' key words, e.g. rpc_port,big_data
-type ZXCS struct {
-	Scheme string `json:"scheme"`
-	Address string `json:"address"`
-	RootPath string `json:"root_path"`
-	Map struct {
-		HistoryAndMilitary string `json:"historyAndMilitary"`
-		History string `json:"history"`
-		Military string `json:"military"`
-		City string `json:"city"`
-		SwordsmanAndGod string `json:"swordsmanAndGod"`
-		Swordsman string `json:"swordsman"`
-		God string `json:"god"`
-		Fantasy0And1 string `json:"fantasy0And1"`
-		Fantasy0 string `json:"fantasy0"`
-		Fantasy1 string `json:"fantasy1"`
-		PublishAndGirl string `json:"publishAndGirl"`
-		Publish string `json:"publish"`
-		Girl string `json:"girl"`
-	} `json:"map"`
+type ConfigStruct struct {
+	Zxcs struct {
+		Scheme   string `json:"scheme"`
+		Address  string `json:"address"`
+		DownloadAddress string `mapstructure:"download_address"`
+		RootPath string `mapstructure:"root_path"`
+		DownloadPath string `mapstructure:"download_path"`
+		VotePath string `mapstructure:"vote_path"`
+		TypeList []struct {
+			Name  string `json:"name"`
+			Value int    `json:"value"`
+		} `mapstructure:"type_list"`
+	} `json:"zxcs"`
+	Sqlite struct {
+		DbName string `mapstructure:"db_name"`
+		TbName string `mapstructure:"tb_name"`
+	} `json:"sqlite"`
 }
 
 var (
 	defaultFilePath  = "/etc/config.json"
 	ViperConfig *viper.Viper
-	Config *ZXCS
+	Config *ConfigStruct
 	serverPath = os.Getenv("ZXCS_GO_SPIDER_PATH")
 )
 
 func init()  {
 	if serverPath == "" {
-		zap.Logger.Fatal("MEDICHAIN_PATH env required")
+		serverPath = "./"
+		log.Sugar.Warn("ZXCS_GO_SPIDER_PATH env not set, use ./ as default")
 	}
-	zap.Sugar.Infof("zxcs-go-spider path ===> %s", serverPath)
+	log.Sugar.Infof("ZXCS_GO_SPIDER_PATH ===> %s", serverPath)
 	InitConfig(path.Join(GetServerDir(), defaultFilePath))
 }
 func InitConfig(filePath string) {
-	zap.Sugar.Infof("config: init config path %s", filePath)
+	log.Sugar.Infof("config: init config path %s", filePath)
 	ViperConfig = viper.New()
 	if filePath == "" {
 		ViperConfig.SetConfigFile(defaultFilePath)
@@ -56,15 +55,24 @@ func InitConfig(filePath string) {
 	err := ViperConfig.ReadInConfig()
 	if err != nil {
 		if filePath != defaultFilePath {
-			zap.Logger.Fatal(err.Error())
+			log.Logger.Fatal(err.Error())
 		}
 	}
 	err = ViperConfig.Unmarshal(&Config)
 	if err != nil {
-		zap.Logger.Fatal(err.Error())
+		log.Logger.Fatal(err.Error())
 	}
 }
 func GetServerDir() string {
 	//return GetViperConfig().GetString("server.dir")
 	return serverPath
+}
+func GetSqliteTabelFilePath() string {
+	return path.Join(serverPath, "sql", Config.Sqlite.TbName)
+}
+func GetSqliteDbFilePath() string {
+	return path.Join(serverPath, "databases", Config.Sqlite.DbName)
+}
+func GetSqliteDbDirPath() string {
+	return path.Join(serverPath, "databases")
 }

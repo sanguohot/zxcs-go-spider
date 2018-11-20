@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS `tbl_novel` (
+	`NovelId`	INTEGER NOT NULL,
+	`NovelHash`	TEXT NOT NULL UNIQUE,
+	`DownloadUrl`	TEXT NOT NULL,
+	`VoteUrl`	TEXT NOT NULL,
+	`NovelType`	TEXT NOT NULL,
+	`Size`	INTEGER NOT NULL,
+	`Title`	TEXT NOT NULL,
+	`Detail`	TEXT,
+	`XianCao`	INTEGER NOT NULL,
+	`LiangCao`	INTEGER NOT NULL,
+	`GanCao`	INTEGER NOT NULL,
+	`KuCao`	INTEGER NOT NULL,
+	`DuCao`	INTEGER NOT NULL,
+	`Time`	INTEGER NOT NULL,
+	PRIMARY KEY(`NovelId`)
+);
+CREATE INDEX IF NOT EXISTS `idx` ON `tbl_novel` (`NovelType`);

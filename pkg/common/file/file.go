@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/sanguohot/zxcs-go-spider/pkg/common/log"
 	"io/ioutil"
 	"os"
 	"path"
@@ -15,6 +16,12 @@ func IsFileExist(output, name string) bool {
 }
 func SaveToLocal(output, name string, data []byte) error {
 	filePath := path.Join(output, name)
+	if !FilePathExist(output) {
+		err := os.Mkdir(output, os.ModePerm)
+		if err != nil {
+			log.Logger.Fatal(err.Error())
+		}
+	}
 	if IsFileExist(output, name) {
 		// path/to/whatever exists
 		return nil
@@ -35,4 +42,12 @@ func AppendUrlToLocal(output, name string, data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func FilePathExist(_path string) bool {
+	_, err := os.Stat(_path)
+	if err != nil && os.IsNotExist(err) {
+		return false
+	}
+	return true
 }

@@ -2,21 +2,28 @@
 	"zxcs": {
 		"scheme": "http",
 		"address": "www.zxcs8.com",
-		"root_path": "/sort",
-		"map": {
-			"historyAndMilitary":"28",
-			"history":"42",
-			"military":"43",
-			"city":"23",
-			"swordsmanAndGod":"25",
-			"swordsman":"36",
-			"god":"37",
-			"fantasy0And1":"26",
-			"fantasy0":"38",
-			"fantasy1":"39",
-			"publishAndGirl":"34",
-			"publish":"46",
-			"girl":"47"
-		}
-    }
+		"download_address": "www.zxcs.me",
+		"root_path": "sort",
+		"download_path": "download.php",
+		"vote_path": "content/plugins/cgz_xinqing/cgz_xinqing_action.php?action=show",
+		"type_list": [
+			{"name": "historyAndMilitary", "value": 28},
+			{"name": "history", "value": 42},
+			{"name": "military", "value": 43},
+			{"name": "city", "value": 23},
+			{"name": "swordsmanAndGod", "value": 25},
+			{"name": "swordsman", "value": 36},
+			{"name": "god", "value": 37},
+			{"name": "fantasy0And1", "value": 26},
+			{"name": "fantasy0", "value": 38},
+			{"name": "fantasy1", "value": 39},
+			{"name": "publishAndGirl", "value": 34},
+			{"name": "publish", "value": 46},
+			{"name": "girl", "value": 47}
+		]
+    },
+	"sqlite": {
+		"db_name": "zxcs.db",
+		"tb_name": "tbl_novel.sql"
+	}
 }
